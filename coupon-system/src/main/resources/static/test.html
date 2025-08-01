@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>쿠폰 발급 테스트</title>
+</head>
+<body>
+
+<h2>쿠폰 발급</h2>
+<button onclick="getCoupon()">쿠폰 받기</button>
+
+<h3>결과:</h3>
+<pre id="result" style="background:#f4f4f4; padding:1em; border:1px solid #ccc;"></pre>
+
+<script>
+    function getCoupon() {
+      fetch('/get-coupon')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("서버 오류: " + response.status);
+          }
+          return response.json();
+        })
+        .then(data => {
+          const resultDiv = document.getElementById('result');
+
+          if (data.success) {
+            resultDiv.innerText =
+              `✅ 성공: ${data.message}\n` +
+              `쿠폰 코드: ${data.data.code}\n` +
+              `발급 시간: ${data.data.issuedAt}`;
+          } else {
+            resultDiv.innerText = `❌ 실패: ${data.message}`;
+          }
+        })
+        .catch(error => {
+          document.getElementById('result').innerText = '⚠️ 오류 발생: ' + error.message;
+        });
+    }
+</script>
+
+</body>
+</html>
