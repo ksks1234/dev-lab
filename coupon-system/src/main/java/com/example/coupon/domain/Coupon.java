@@ -22,6 +22,7 @@ public class Coupon {
     private CouponStatus status;
     private LocalDateTime issuedAt;
 
+
     // ✅ 정적 팩토리 메서드
     public static Coupon create(String code, String name) {
         Coupon coupon = new Coupon();
